@@ -12,6 +12,7 @@ print(chris)
 print("\nello wurld")
 
 
-for i in range(5)
+#fixed your code
+for i in range(5):
   print('Hella')
   
