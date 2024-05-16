@@ -16,3 +16,6 @@ print("\nello wurld")
 for i in range(5):
   print('Hella')
   
+bankfile = str(input("Enter the path to your banking csv file: "))
+print(bankfile)
+pd.read_csv(bankfile)
