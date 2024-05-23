@@ -11,12 +11,17 @@ chris = "que guey"
 print(chris)
 print("\nello wurld")
 
+id_number_list = [1, 2,3,4,5]
+amount_list = [3,5,1,7,54]
+category_list = [12,32,32,4,8]
+frequency_list = [14,13,12,11,10]
+time_list = [10,12,14,16,18]
+rating_list = [90,100,102,119,130]
 
-#fixed your code
-for i in range(5):
-  print('Hella')
-  print("rious")
-  
-bankfile = str(input("Enter the path to your banking csv file: "))
-print(bankfile)
-pd.read_csv(bankfile)
+data = {"id number": id_number_list, "amount": amount_list, "category": category_list, "frequency": frequency_list, "time": time_list, "rating": rating_list}
+default_template =  pd.DataFrame(data)
+print(default_template)
+
+#bankfile = str(input("Enter the path to your banking csv file: "))
+#print(bankfile)
+#pd.read_csv(bankfile)
