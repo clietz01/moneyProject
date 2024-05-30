@@ -25,3 +25,28 @@ print(default_template)
 #bankfile = str(input("Enter the path to your banking csv file: "))
 #print(bankfile)
 #pd.read_csv(bankfile)
+bankfile = pd.read_csv("Test CSV.csv")
+print(bankfile.head())
+user_mapping_fields = list(bankfile.columns)
+default_mapping_fields = list(default_template.columns)
+
+combined_mapping_list = []
+
+print("\nAvailable columns to map:\n")
+print("User fields: ", user_mapping_fields)
+print("System fields:  ", default_mapping_fields)
+
+print("\nHow do you want to map your fields? Type the system field name you want to map to.")
+
+while len(user_mapping_fields) > 0:
+  system_field_selection = input(f'\nMap "{user_mapping_fields[0]}" to which system field?\n')
+  #if system_field_selection in default_mapping_fields:
+  #  default_mapping_fields.remove(system_field_selection)
+  #if system_field_selection not in default_mapping_fields:
+  #  continue
+  new_list = [system_field_selection, user_mapping_fields.pop(0)]
+  default_mapping_fields.remove(system_field_selection)
+  combined_mapping_list.append(new_list)
+print(combined_mapping_list)
+print("user fields: ", user_mapping_fields)
+print("default fields: ", default_mapping_fields)
