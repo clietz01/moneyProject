@@ -18,13 +18,12 @@ frequency_list = [14,13,12,11,10]
 time_list = [10,12,14,16,18]
 rating_list = [90,100,102,119,130]
 
+#making the default dataframe
 data = {"id number": id_number_list, "amount": amount_list, "category": category_list, "frequency": frequency_list, "time": time_list, "rating": rating_list}
 default_template =  pd.DataFrame(data)
 print(default_template)
 
-#bankfile = str(input("Enter the path to your banking csv file: "))
-#print(bankfile)
-#pd.read_csv(bankfile)
+#adding testing file and making a list with the column names for the user file and for the default file
 bankfile = pd.read_csv("Test CSV.csv")
 print(bankfile.head())
 user_mapping_fields = list(bankfile.columns)
@@ -38,21 +37,26 @@ print("System fields:  ", default_mapping_fields)
 
 print("\nHow do you want to map your fields? Type the system field name you want to map to.")
 
+#looping through the column names in the user file until it is empty
 while len(user_mapping_fields) > 0:
   system_field_selection = input(f'\nMap "{user_mapping_fields[0]}" to which system field?\n').strip().lower()
   
+  #checking if the user input is a column name or not
+  #"none" is an option and will be treated as an empty value
   if system_field_selection not in default_mapping_fields:
     if system_field_selection == "none":
-      print("good")
+      pass
     else:
       print("That field is not available. Please select a field from the list.")
       continue
   if system_field_selection in default_mapping_fields:
     default_mapping_fields.remove(system_field_selection)
   
+  #a list is made for each map, then each list is added into a combined list
   new_list = [system_field_selection, user_mapping_fields.pop(0)]
   combined_mapping_list.append(new_list)
 
+#adding "none" to any system field that did not have a mapping
 for i in range(len(default_mapping_fields)):
   combined_mapping_list.append([default_mapping_fields[i], "none"])
 default_mapping_fields = []
