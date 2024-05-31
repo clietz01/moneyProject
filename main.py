@@ -39,11 +39,14 @@ print("System fields:  ", default_mapping_fields)
 print("\nHow do you want to map your fields? Type the system field name you want to map to.")
 
 while len(user_mapping_fields) > 0:
-  system_field_selection = input(f'\nMap "{user_mapping_fields[0]}" to which system field?\n')
+  system_field_selection = input(f'\nMap "{user_mapping_fields[0]}" to which system field?\n').strip().lower()
   
   if system_field_selection not in default_mapping_fields:
-    print("That field is not available. Please select a field from the list.")
-    continue
+    if system_field_selection == "none":
+      print("good")
+    else:
+      print("That field is not available. Please select a field from the list.")
+      continue
   if system_field_selection in default_mapping_fields:
     default_mapping_fields.remove(system_field_selection)
   
@@ -51,7 +54,7 @@ while len(user_mapping_fields) > 0:
   combined_mapping_list.append(new_list)
 
 for i in range(len(default_mapping_fields)):
-  combined_mapping_list.append([default_mapping_fields[i], "None"])
+  combined_mapping_list.append([default_mapping_fields[i], "none"])
 default_mapping_fields = []
 
 print(combined_mapping_list)
