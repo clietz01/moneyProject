@@ -49,6 +49,11 @@ while len(user_mapping_fields) > 0:
   
   new_list = [system_field_selection, user_mapping_fields.pop(0)]
   combined_mapping_list.append(new_list)
+
+for i in range(len(default_mapping_fields)):
+  combined_mapping_list.append([default_mapping_fields[i], "None"])
+default_mapping_fields = []
+
 print(combined_mapping_list)
 print("user fields: ", user_mapping_fields)
 print("default fields: ", default_mapping_fields)
