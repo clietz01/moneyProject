@@ -47,7 +47,8 @@ while len(user_mapping_fields) > 0:
     if system_field_selection == "none":
       pass
     else:
-      print("That field is not available. Please select a field from the list.")
+      print("\nThat field is not available. Please select a field from the following list:\n")
+      print(*default_mapping_fields, sep = ", ")
       continue
   if system_field_selection in default_mapping_fields:
     default_mapping_fields.remove(system_field_selection)
@@ -56,11 +57,14 @@ while len(user_mapping_fields) > 0:
   new_list = [system_field_selection, user_mapping_fields.pop(0)]
   combined_mapping_list.append(new_list)
 
+  if len(default_mapping_fields) == 0:
+    break
+
 #adding "none" to any system field that did not have a mapping
 for i in range(len(default_mapping_fields)):
   combined_mapping_list.append([default_mapping_fields[i], "none"])
 default_mapping_fields = []
 
-print(combined_mapping_list)
+print("combined mapping list: ", combined_mapping_list)
 print("user fields: ", user_mapping_fields)
 print("default fields: ", default_mapping_fields)
