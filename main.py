@@ -65,6 +65,25 @@ for i in range(len(default_mapping_fields)):
   combined_mapping_list.append([default_mapping_fields[i], "none"])
 default_mapping_fields = []
 
+#gets rid of any mappings in combined_mapping_list that are mapped to "none"
+no_mapping = "none"
+combined_mapping_list = [field for field in combined_mapping_list if no_mapping not in field]
+#if this is correct, continue. If the mapping is wrong, then restart
+print("Is the following correct? (y/n)")
+print(combined_mapping_list,"\n")
+user_correct_mapping = input()
+
+#adds the info from the user's file into the mapped default field
+while len(combined_mapping_list) > 0:
+  individual_mappings = combined_mapping_list.pop(0)
+  default_column = individual_mappings[0]
+  user_column = individual_mappings[1]
+  default_template[default_column] = bankfile[user_column]
+
+print("\ndefault:\n", default_template)
+print("bankfile:\n", bankfile)
+print("combined:\n", combined_mapping_list)
+
 print("combined mapping list: ", combined_mapping_list)
 print("user fields: ", user_mapping_fields)
 print("default fields: ", default_mapping_fields)
