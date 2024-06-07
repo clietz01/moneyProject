@@ -37,42 +37,57 @@ print("System fields:  ", default_mapping_fields)
 
 print("\nHow do you want to map your fields? Type the system field name you want to map to.")
 
-#looping through the column names in the user file until it is empty
-while len(user_mapping_fields) > 0:
-  system_field_selection = input(f'\nMap "{user_mapping_fields[0]}" to which system field?\n').strip().lower()
-  
-  #checking if the user input is a column name or not
-  #"none" is an option and will be treated as an empty value
-  if system_field_selection not in default_mapping_fields:
-    if system_field_selection == "none":
-      pass
-    else:
-      print("\nThat field is not available. Please select a field from the following list:\n")
-      print(*default_mapping_fields, sep = ", ")
-      continue
-  if system_field_selection in default_mapping_fields:
-    default_mapping_fields.remove(system_field_selection)
-  
-  #a list is made for each map, then each list is added into a combined list
-  new_list = [system_field_selection, user_mapping_fields.pop(0)]
-  combined_mapping_list.append(new_list)
+user_correct_mapping = "n"
 
-  if len(default_mapping_fields) == 0:
+#looping through the column names in the user file until it is empty
+while user_correct_mapping == "n":
+  while len(user_mapping_fields) > 0:
+    system_field_selection = input(f'\nMap "{user_mapping_fields[0]}" to which system field?\n').strip().lower()
+  
+    #checking if the user input is a column name or not
+    #"none" is an option and will be treated as an empty value
+    if system_field_selection not in default_mapping_fields:
+      if system_field_selection == "none":
+        pass
+      else:
+        print("\nThat field is not available. Please select a field from the following list:\n")
+        print(*default_mapping_fields, sep = ", ")
+        continue
+    if system_field_selection in default_mapping_fields:
+      default_mapping_fields.remove(system_field_selection)
+      
+    #a list is made for each map, then each list is added into a combined list
+    new_list = [system_field_selection, user_mapping_fields.pop(0)]
+    combined_mapping_list.append(new_list)
+  
+    if len(default_mapping_fields) == 0:
+      break
+  
+  #adding "none" to any system field that did not have a mapping
+  for i in range(len(default_mapping_fields)):
+    combined_mapping_list.append([default_mapping_fields[i], "none"])
+  
+  #gets rid of any mappings in combined_mapping_list that are mapped to "none"
+  no_mapping = "none"
+  combined_mapping_list = [field for field in combined_mapping_list if no_mapping not in field]
+ 
+  #if this is correct, continue. If the mapping is wrong, then restart
+  print("Is the following correct? (y/n)")
+  print(str(combined_mapping_list)[1:-1] + "\n")
+  user_correct_mapping = input().strip().lower()
+  if user_correct_mapping == "n":
+    combined_mapping_list = []
+    user_mapping_fields = list(bankfile.columns)
+    default_mapping_fields = list(default_template.columns)
+    continue
+
+  if user_correct_mapping == "y":
     break
 
-#adding "none" to any system field that did not have a mapping
-for i in range(len(default_mapping_fields)):
-  combined_mapping_list.append([default_mapping_fields[i], "none"])
-default_mapping_fields = []
-
-#gets rid of any mappings in combined_mapping_list that are mapped to "none"
-no_mapping = "none"
-combined_mapping_list = [field for field in combined_mapping_list if no_mapping not in field]
-#if this is correct, continue. If the mapping is wrong, then restart
-print("Is the following correct? (y/n)")
-print(combined_mapping_list,"\n")
-user_correct_mapping = input()
-
+  else:
+    user_correct_mapping = "n"
+    print("That is not a valid input. Please try again.")
+    
 #adds the info from the user's file into the mapped default field
 while len(combined_mapping_list) > 0:
   individual_mappings = combined_mapping_list.pop(0)
