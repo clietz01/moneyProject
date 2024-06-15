@@ -4,7 +4,7 @@
 #testing git pull and git fetch pt2
 import numpy as np
 import pandas as pd
-import matplotlib as mpl
+import matplotlib.pyplot as mpl
 
 chris = "que guey"
 
@@ -68,11 +68,10 @@ while user_correct_mapping == "n":
     combined_mapping_list.append([default_mapping_fields[i], "none"])
   
   #gets rid of any mappings in combined_mapping_list that are mapped to "none"
-  no_mapping = "none"
-  combined_mapping_list = [field for field in combined_mapping_list if no_mapping not in field]
+  combined_mapping_list = [field for field in combined_mapping_list if "none" not in field]
  
   #if this is correct, continue. If the mapping is wrong, then restart
-  print("Is the following correct? (y/n)")
+  print("\nIs the following correct? (y/n)")
   print(str(combined_mapping_list)[1:-1] + "\n")
   user_correct_mapping = input().strip().lower()
   if user_correct_mapping == "n":
@@ -102,3 +101,22 @@ print("combined:\n", combined_mapping_list)
 print("combined mapping list: ", combined_mapping_list)
 print("user fields: ", user_mapping_fields)
 print("default fields: ", default_mapping_fields)
+
+
+
+#######
+# Data manipulation part starts here
+#######
+
+# getting rid of the unmapped columns
+default_template = default_template.dropna(axis=1, how='all')
+print("graph this: \n", default_template)
+
+# Create a bar chart
+rating_graph = default_template['rating']
+id_number_graph = default_template['id number']
+# figure size
+fig1 = mpl.figure(figsize = (10,7))
+# horizontal bar plot
+mpl.bar(rating_graph, id_number_graph)
+mpl.show()
